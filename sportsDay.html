@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // Global scores object
+let scores = {
+  red: 0,
+  blue: 0,
+  green: 0,
+  yellow: 0
+};
+
+// Opening Ceremony function
+function OpeningCeremony() {
+  console.log("🏁 Let the games begin!");
+  console.log("Initial Scores:", scores);
+  setTimeout(() => {
+    Race100M(LongJump);
+  }, 1000);
+}
+
+// Race 100M event
+function Race100M(callback) {
+  console.log("🏃‍♂️ Starting the 100M Race...");
+
+  // Random times for each color between 10-15
+  let raceTimes = {
+    red: Math.floor(Math.random() * 6) + 10,
+    blue: Math.floor(Math.random() * 6) + 10,
+    green: Math.floor(Math.random() * 6) + 10,
+    yellow: Math.floor(Math.random() * 6) + 10
+  };
+
+  console.log("Race Times (in seconds):", raceTimes);
+
+  // Sort players based on race time (ascending)
+  let sortedPlayers = Object.entries(raceTimes).sort((a, b) => a[1] - b[1]);
+
+  // Award points
+  scores[sortedPlayers[0][0]] += 50;  // 1st place +50
+  scores[sortedPlayers[1][0]] += 25;  // 2nd place +25
+
+  console.log("Updated Scores after 100M Race:", scores);
+
+  setTimeout(() => {
+    callback(HighJump);
+  }, 2000);
+}
+
+// Long Jump event
+function LongJump(callback) {
+  console.log("🦘 Starting the Long Jump event...");
+
+  let colors = ["red", "blue", "green", "yellow"];
+  let randomWinner = colors[Math.floor(Math.random() * colors.length)];
+
+  scores[randomWinner] += 150;
+
+  console.log(`${randomWinner} won the Long Jump!`);
+  console.log("Updated Scores after Long Jump:", scores);
+
+  setTimeout(() => {
+    callback(AwardCeremony);
+  }, 2000);
+}
+
+// High Jump event
+function HighJump(callback) {
+  console.log("🏅 Starting the High Jump event...");
+
+  let userInput = prompt("Which color secured the highest jump? (red/blue/green/yellow)");
+
+  if (userInput && scores.hasOwnProperty(userInput.toLowerCase())) {
+    scores[userInput.toLowerCase()] += 100;
+    console.log(`${userInput} wins the High Jump!`);
+  } else {
+    console.log("Event was cancelled.");
+  }
+
+  console.log("Updated Scores after High Jump:", scores);
+
+  setTimeout(() => {
+    callback();
+  }, 1000);
+}
+
+// Award Ceremony function
+function AwardCeremony() {
+  console.log("🎖️ The final Award Ceremony begins...");
+
+  let finalStandings = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  console.log(`🥇 1st Place: ${finalStandings[0][0]} with ${finalStandings[0][1]} points.`);
+  console.log(`🥈 2nd Place: ${finalStandings[1][0]} with ${finalStandings[1][1]} points.`);
+  console.log(`🥉 3rd Place: ${finalStandings[2][0]} with ${finalStandings[2][1]} points.`);
+
+  console.log("Final Scores:", scores);
+}
+
+// Start the sports event chain
+OpeningCeremony();
+
+    </script>
+</body>
+</html>
